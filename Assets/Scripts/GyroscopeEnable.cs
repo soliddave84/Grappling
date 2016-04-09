@@ -6,25 +6,32 @@ using System.Collections;
 public class GyroscopeEnable : MonoBehaviour
 {
     private Gyroscope gyro;
+    //public Quaternion rotation;
 
     void Start()
     {
+
+
+        // attitudeFix = new Quaternion(gyro.attitude.x*0, gyro.attitude.y*0, gyro.attitude.z*0, gyro.attitude.w);
+      
         if (SystemInfo.supportsGyroscope)
         {
             gyro = Input.gyro;
             gyro.enabled = true;
+        
         }
     }
-
-    void OnGUI()
+    
+    void Update()
     {
-        GUILayout.Label("Gyroscope attitude : " + gyro.attitude);
-        GUILayout.Label("Gyroscope gravity : " + gyro.gravity);
-        GUILayout.Label("Gyroscope rotationRate : " + gyro.rotationRate);
-        GUILayout.Label("Gyroscope rotationRateUnbiased : " + gyro.rotationRateUnbiased);
-        GUILayout.Label("Gyroscope updateInterval : " + gyro.updateInterval);
-        GUILayout.Label("Gyroscope userAcceleration : " + gyro.userAcceleration);
+
+     // rotation = new Quaternion(0, Input.gyro.attitude.y, Input.gyro.attitude.z, -Input.gyro.attitude.w);
+
+      //  transform.rotation =rotation;
     }
+
+
+
 }
 
 #endif

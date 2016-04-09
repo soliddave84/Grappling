@@ -67,24 +67,26 @@ public class UnityEditorDevice : BaseVRDevice {
     public override void UpdateState()
     {
         Quaternion rot;
-        if (Cardboard.SDK.UseUnityRemoteInput && RemoteCommunicating)
+        if (RemoteCommunicating) //Cardboard.SDK.UseUnityRemoteInput
         {
             var att = Input.gyro.attitude * initialRotation;
             att = new Quaternion(att.x, att.y, -att.z, -att.w);
-            rot = Quaternion.Euler(90, 0, 0) * att;
+            rot = Quaternion.Euler(90, 0, 90) * att;
         }
        else
         
             {
                 bool rolled = false;
 
-                if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)||RemoteCommunicating)
+                if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
                 {
                     mouseX += Input.GetAxis("Mouse X") * 5;
-                    if (mouseX <= -180)
+                
+                if (mouseX <= -180)
                     {
                         mouseX += 360;
-                    }
+                    
+                }
                     else if (mouseX > 180)
                     {
                         mouseX -= 360;

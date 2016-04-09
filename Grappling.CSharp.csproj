@@ -112,8 +112,10 @@
     <Compile Include="Assets\Cardboard\Scripts\VRDevices\UnityEditorDevice.cs" />
     <Compile Include="Assets\DataReceiver.cs" />
     <Compile Include="Assets\DataSender.cs" />
+    <Compile Include="Assets\GrappleAssets\GrappleInfo.cs" />
     <Compile Include="Assets\RemoteConnection.cs" />
     <Compile Include="Assets\ScreenStream.cs" />
+    <Compile Include="Assets\Scripts\AttitudeDebug.cs" />
     <Compile Include="Assets\Scripts\CardboardMoving.cs" />
     <Compile Include="Assets\Scripts\FreezePosition.cs" />
     <Compile Include="Assets\Scripts\Grapple.cs" />
