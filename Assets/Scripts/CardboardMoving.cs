@@ -10,6 +10,11 @@ public class CardboardMoving : MonoBehaviour {
     // will using the Cardboard head transform for player movement
     CardboardHead playerHead = null;
 
+    
+
+
+    Grapple grapplePass;
+
 
     // determines if the player is walking or not  
     [HideInInspector]
@@ -20,19 +25,24 @@ public class CardboardMoving : MonoBehaviour {
     public bool enableWalking = true;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
+
+        playerHead = Camera.main.GetComponent<StereoController>().Head;
+        
        
-        playerHead= Camera.main.GetComponent<StereoController>().Head;
-   
+
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
-	// if you press the magnet trigger and 
+        // if you press the magnet trigger and 
+
+
+
         if (Cardboard.SDK.Triggered && !isWalking)
         {
             isWalking = true;
-          
             
 
         }
@@ -42,6 +52,9 @@ public class CardboardMoving : MonoBehaviour {
             isWalking = false;
         }
 
+
+
+
         //calls the walking function in update
         Walking();
     }
@@ -50,10 +63,10 @@ public class CardboardMoving : MonoBehaviour {
     // the function bellow controls the walking.
     void Walking()
     {
-        if (isWalking && enableWalking==true)
+        if (isWalking && enableWalking == true)
         {
-         Vector3 walkDirection = new Vector3(playerHead.transform.forward.x, 0, playerHead.transform.forward.z).normalized * walkSpeed * Time.deltaTime;
-        
+            Vector3 walkDirection = new Vector3(playerHead.transform.forward.x, 0, playerHead.transform.forward.z).normalized * walkSpeed * Time.deltaTime;
+
             transform.Translate(walkDirection);
 
         }
@@ -61,6 +74,10 @@ public class CardboardMoving : MonoBehaviour {
 
     
 
+}
 
     
-}
+
+
+    
+

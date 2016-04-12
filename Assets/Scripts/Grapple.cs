@@ -5,28 +5,30 @@ public class Grapple : MonoBehaviour {
     public GameObject player;
     public Transform grapplebox;
    private Rigidbody m_Rigidbody;
-    public GameObject cardboardMain;
+
+   public GameObject releaseBox;
+   
     private CardboardMoving canWalking;
     private CardboardMoving canWalk;
 
-    private bool grapple;
+
+    public GameObject ret;
+    public bool grapple =false ;
     public float speed;
     // Use this for initialization
     void Start()
     {
         m_Rigidbody = player.GetComponent<Rigidbody>();
-        canWalking = cardboardMain.GetComponent<CardboardMoving>();
-        canWalk = cardboardMain.GetComponent<CardboardMoving>();
+        canWalking = player.GetComponent<CardboardMoving>();
+        canWalk = player.GetComponent<CardboardMoving>();
 
-        grapple = false;
+      
     }
     // Update is called once per frame
     void Update () {
 
-       
-
         
-    
+
     }
 
 
@@ -34,33 +36,52 @@ public class Grapple : MonoBehaviour {
 
     public void OnGazeClickMove()
     {
-        grapple = true;
-        Vector3 direction = (grapplebox.transform.position - player.transform.position).normalized;
-        m_Rigidbody.AddForce(direction * speed);
+
+        
+      
+        if (grapple == false && Physics.Raycast(ret.transform.forward, grapplebox.transform.position, 100))
+        {
+
+            
+
+            Vector3 direction = (grapplebox.transform.position - player.transform.position).normalized;
+            m_Rigidbody.AddForce(direction * speed);
+            grapple = true;
+
+            
+            
+        }
     }
 
     public void OnGazeClickFreeze()
     {
 
         // freezes the position when to simulate being hooked to object
-     
-      // m_Rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ |
-           // RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-        canWalking.isWalking = false;
-        canWalk.enableWalking = false;
 
+        // m_Rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ |
+        // RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        if (grapple == true && Physics.Raycast(ret.transform.forward, grapplebox.transform.position, 100))
+        {
+            canWalking.isWalking = false;
+            canWalk.enableWalking = false;
+            m_Rigidbody.useGravity = false;
+
+        }
+        // disable gravity
         /* Re-write grapple code. Click to Release if statement. if click on grapplebox release grapple and fall */
 
     }
+    public void GrappleClickRelease()
 
-    public void OnGazeExit()
     {
-        
-        /* re-write code. if statement if input click. if you click outside grapplebox you will fall*/
-        m_Rigidbody.constraints = RigidbodyConstraints.None;
-            m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-        
-        canWalk.enableWalking = true;
-        grapple = false;
+
+        if (grapple == true)
+        {
+            m_Rigidbody.useGravity = true;
+            canWalking.isWalking = false;
+            canWalk.enableWalking = true;
+            grapple = false;
+
+        }
     }
 }

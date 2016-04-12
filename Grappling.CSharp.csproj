@@ -117,7 +117,6 @@
     <Compile Include="Assets\ScreenStream.cs" />
     <Compile Include="Assets\Scripts\AttitudeDebug.cs" />
     <Compile Include="Assets\Scripts\CardboardMoving.cs" />
-    <Compile Include="Assets\Scripts\FreezePosition.cs" />
     <Compile Include="Assets\Scripts\Grapple.cs" />
     <Compile Include="Assets\Scripts\GyroscopeEnable.cs" />
     <Compile Include="Assets\Scripts\PlayerMoveAgain.cs" />
