@@ -37,18 +37,19 @@ public class Grapple : MonoBehaviour {
     public void OnGazeClickMove()
     {
 
+        RaycastHit hit;
         
       
-        if (grapple == false && Physics.Raycast(ret.transform.forward, grapplebox.transform.position, 100))
+        if (grapple == false && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 100))
         {
 
-            
+            if (hit.collider.transform.gameObject.tag == "grapplebox")
+            {
+                Vector3 direction = (grapplebox.transform.position - player.transform.position).normalized;
+                m_Rigidbody.AddForce(direction * speed);
+                grapple = true;
 
-            Vector3 direction = (grapplebox.transform.position - player.transform.position).normalized;
-            m_Rigidbody.AddForce(direction * speed);
-            grapple = true;
-
-            
+            }
             
         }
     }
@@ -60,11 +61,18 @@ public class Grapple : MonoBehaviour {
 
         // m_Rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ |
         // RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-        if (grapple == true && Physics.Raycast(ret.transform.forward, grapplebox.transform.position, 100))
+        RaycastHit hit;
+
+        if (grapple == true && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 100))
         {
-            canWalking.isWalking = false;
-            canWalk.enableWalking = false;
-            m_Rigidbody.useGravity = false;
+
+            if (hit.collider.transform.gameObject.tag == "grapplebox")
+            {
+                canWalking.isWalking = false;
+                canWalk.enableWalking = false;
+                m_Rigidbody.useGravity = false;
+
+            }
 
         }
         // disable gravity
