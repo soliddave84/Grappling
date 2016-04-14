@@ -45,10 +45,10 @@ public class Grapple : MonoBehaviour
         RaycastHit hit;
 
 
-        if ((grapple==false || isGrounded ==false) && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 100))
+        if ((grapple==false || isGrounded ==false) && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 10))
         {
-
-            if (hit.collider.transform.gameObject.tag == "grapplebox")
+            //  make code to remove or change ret with hit.distance
+            if (hit.collider.transform.gameObject.tag == "grapplebox" && hit.distance <=10)
             {
                 Vector3 direction = (this.transform.position - player.transform.position).normalized;
 
@@ -70,7 +70,7 @@ public class Grapple : MonoBehaviour
         // RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         RaycastHit hit;
 
-        if (grapple == true && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 100))
+        if (grapple == true && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 10))
         {
 
             if (hit.collider.transform.gameObject.tag == "grapplebox")
