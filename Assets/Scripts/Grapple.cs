@@ -4,10 +4,11 @@ using System.Collections;
 public class Grapple : MonoBehaviour
 {
     public GameObject player;
-    // public Transform grapplebox;
+
+    public GameObject grapplebox;
     private Rigidbody m_Rigidbody;
 
-    // public GameObject releaseBox;
+    public GameObject releaseBox;
 
     private CardboardMoving canWalking;
     private CardboardMoving canWalk;
@@ -32,7 +33,7 @@ public class Grapple : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        RemainReleaseBox();
 
     }
 
@@ -45,16 +46,17 @@ public class Grapple : MonoBehaviour
         RaycastHit hit;
 
 
-        if ((grapple==false || isGrounded ==false) && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 10))
+        if ((grapple == false || isGrounded == false) && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 10))
         {
             //  make code to remove or change ret with hit.distance
-            if (hit.collider.transform.gameObject.tag == "grapplebox" && hit.distance <=10)
+            if (hit.collider.transform.gameObject.tag == "grapplebox" && hit.distance <= 10)
             {
                 Vector3 direction = (this.transform.position - player.transform.position).normalized;
 
                 Debug.Log("hit");
                 m_Rigidbody.AddForce(direction * speed);
                 grapple = true;
+                
 
             }
 
@@ -73,14 +75,14 @@ public class Grapple : MonoBehaviour
         if (grapple == true && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 10))
         {
 
-            if (hit.collider.transform.gameObject.tag == "grapplebox")
+            if (hit.collider.transform.gameObject.tag == "grapplebox" && hit.distance <= 10)
             {
                 canWalking.isWalking = false;
                 canWalk.enableWalking = false;
                 m_Rigidbody.useGravity = false;
                 isGrounded = false;
 
-                
+
                 StartCoroutine(DisablePhysics());
 
             }
@@ -89,9 +91,11 @@ public class Grapple : MonoBehaviour
         // disable gravity
         /* Re-write grapple code. Click to Release if statement. if click on grapplebox release grapple and fall */
 
-    
+
 
     }
+
+
 
 
     IEnumerator DisablePhysics()
@@ -99,23 +103,56 @@ public class Grapple : MonoBehaviour
 
         cap.isTrigger = true;
         yield return new WaitForSeconds(.10f);
-        cap.isTrigger = false;
         
+        cap.isTrigger = false;
+
     }
     public void GrappleClickRelease()
 
     {
 
-        if (grapple == true)
+        if (grapple == true && isGrounded==false)
         {
-            m_Rigidbody.useGravity = true;
-            canWalking.isWalking = false;
-            canWalk.enableWalking = true;
-            grapple = false;
-            isGrounded = true;
+
+            if (this.gameObject.tag == "release box")
+            {
+                m_Rigidbody.useGravity = true;
+                canWalking.isWalking = false;
+                canWalk.enableWalking = true;
+                grapple = false;
+                isGrounded = true;
+                m_Rigidbody.isKinematic = false;
+            }
 
         }
     }
 
-  
+    public void RemainReleaseBox()
+    {
+        RaycastHit hit;
+
+      
+
+        if (grapple == true && isGrounded == false && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 15))
+        {
+            
+            if (hit.collider.transform.gameObject.tag == "grapplebox" && hit.distance <1)
+            {
+                releaseBox.SetActive(true);
+                grapplebox.SetActive(false);
+                m_Rigidbody.isKinematic=true;
+                
+            }
+
+           else if (hit.collider.transform.gameObject.tag == "release box"  && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 15))
+            {
+                releaseBox.SetActive(false);
+                grapplebox.SetActive(true);
+                m_Rigidbody.isKinematic = false;
+               
+            }
+
+        }
+    }
 }
+    

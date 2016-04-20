@@ -58,6 +58,12 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -117,6 +123,7 @@
     <Compile Include="Assets\ScreenStream.cs" />
     <Compile Include="Assets\Scripts\AttitudeDebug.cs" />
     <Compile Include="Assets\Scripts\CardboardMoving.cs" />
+    <Compile Include="Assets\Scripts\CoinCollect.cs" />
     <Compile Include="Assets\Scripts\Grapple.cs" />
     <Compile Include="Assets\Scripts\GyroscopeEnable.cs" />
     <Compile Include="Assets\Scripts\PlayerMoveAgain.cs" />
