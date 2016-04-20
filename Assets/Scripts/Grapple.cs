@@ -6,7 +6,7 @@ public class Grapple : MonoBehaviour
     public GameObject player;
 
     public GameObject grapplebox;
-    private Rigidbody m_Rigidbody;
+    public Rigidbody m_Rigidbody;
 
     public GameObject releaseBox;
 
@@ -56,7 +56,7 @@ public class Grapple : MonoBehaviour
                 Debug.Log("hit");
                 m_Rigidbody.AddForce(direction * speed);
                 grapple = true;
-                
+
 
             }
 
@@ -81,8 +81,8 @@ public class Grapple : MonoBehaviour
                 canWalk.enableWalking = false;
                 m_Rigidbody.useGravity = false;
                 isGrounded = false;
-
-
+                m_Rigidbody.useGravity = false;
+                
                 StartCoroutine(DisablePhysics());
 
             }
@@ -103,7 +103,7 @@ public class Grapple : MonoBehaviour
 
         cap.isTrigger = true;
         yield return new WaitForSeconds(.10f);
-        
+
         cap.isTrigger = false;
 
     }
@@ -111,48 +111,74 @@ public class Grapple : MonoBehaviour
 
     {
 
-        if (grapple == true && isGrounded==false)
-        {
 
-            if (this.gameObject.tag == "release box")
-            {
-                m_Rigidbody.useGravity = true;
-                canWalking.isWalking = false;
-                canWalk.enableWalking = true;
-                grapple = false;
-                isGrounded = true;
-                m_Rigidbody.isKinematic = false;
-            }
 
-        }
+
+
+        m_Rigidbody.useGravity = true;
+        canWalking.isWalking = false;
+        canWalk.enableWalking = true;
+        grapple = false;
+        isGrounded = true;
+         m_Rigidbody.isKinematic = false;
+
+      
+
     }
+
+
 
     public void RemainReleaseBox()
     {
         RaycastHit hit;
 
-      
+
 
         if (grapple == true && isGrounded == false && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 15))
         {
-            
-            if (hit.collider.transform.gameObject.tag == "grapplebox" && hit.distance <1)
-            {
-                releaseBox.SetActive(true);
-                grapplebox.SetActive(false);
-                m_Rigidbody.isKinematic=true;
-                
-            }
 
-           else if (hit.collider.transform.gameObject.tag == "release box"  && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 15))
+          
+
+            if (hit.collider.transform.gameObject.tag == "releasebox" && hit.distance <= 3)
+            {
+                //releaseBox.SetActive(true);
+                //grapplebox.SetActive(false);
+                m_Rigidbody.isKinematic = false;
+
+            }
+            
+
+        } 
+    }
+
+
+
+
+    public void RemainReleaseBox2()
+    {
+        RaycastHit hit;
+
+
+
+        if (grapple == true && isGrounded == false && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 15))
+        {
+
+
+
+            if (hit.collider.transform.gameObject.tag=="releasebox" && hit.distance >5)
             {
                 releaseBox.SetActive(false);
                 grapplebox.SetActive(true);
                 m_Rigidbody.isKinematic = false;
-               
+
             }
+
 
         }
     }
+
 }
+
+
+
     

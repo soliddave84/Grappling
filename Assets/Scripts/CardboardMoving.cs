@@ -13,7 +13,7 @@ public class CardboardMoving : MonoBehaviour {
     
 
 
-    Grapple grapplePass;
+   
 
 
     // determines if the player is walking or not  
