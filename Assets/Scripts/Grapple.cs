@@ -16,6 +16,7 @@ public class Grapple : MonoBehaviour
 
     public GameObject ret;
     public bool grapple = false;
+    public int grapplePoint;
     public bool isGrounded = true;
 
     public Collider cap;
@@ -28,13 +29,14 @@ public class Grapple : MonoBehaviour
         canWalking = player.GetComponent<CardboardMoving>();
         canWalk = player.GetComponent<CardboardMoving>();
 
+        grapplePoint = 0;
 
     }
     // Update is called once per frame
     void Update()
     {
         RemainReleaseBox();
-
+        RemainReleaseBox2();
     }
 
 
@@ -56,7 +58,8 @@ public class Grapple : MonoBehaviour
                 Debug.Log("hit");
                 m_Rigidbody.AddForce(direction * speed);
                 grapple = true;
-
+                grapplePoint = 1;
+                
 
             }
 
@@ -105,7 +108,7 @@ public class Grapple : MonoBehaviour
         yield return new WaitForSeconds(.10f);
 
         cap.isTrigger = false;
-
+        
     }
     public void GrappleClickRelease()
 
@@ -121,7 +124,7 @@ public class Grapple : MonoBehaviour
         grapple = false;
         isGrounded = true;
          m_Rigidbody.isKinematic = false;
-
+        grapplePoint = 0;
       
 
     }
@@ -132,19 +135,25 @@ public class Grapple : MonoBehaviour
     {
         RaycastHit hit;
 
-
+     
 
         if (grapple == true && isGrounded == false && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 15))
         {
 
           
 
-            if (hit.collider.transform.gameObject.tag == "releasebox" && hit.distance <= 3)
+            if (hit.collider.transform.gameObject.tag == "grapplebox" && hit.distance <= 3)
             {
-                //releaseBox.SetActive(true);
-                //grapplebox.SetActive(false);
+                releaseBox.SetActive(true);
+                grapplebox.SetActive(false);
                 m_Rigidbody.isKinematic = false;
+                grapplePoint = 0;
 
+                while (grapplePoint==0)
+                {
+
+                    m_Rigidbody.isKinematic = false;
+                }
             }
             
 
@@ -160,17 +169,20 @@ public class Grapple : MonoBehaviour
 
 
 
-        if (grapple == true && isGrounded == false && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 15))
+        if (grapple == true && isGrounded == false && Physics.Raycast(ret.transform.position, ret.transform.forward, out hit, 100))
         {
 
 
 
-            if (hit.collider.transform.gameObject.tag=="releasebox" && hit.distance >5)
+            if (hit.collider.transform.gameObject.tag=="releasebox" && hit.distance >=4)
             {
                 releaseBox.SetActive(false);
                 grapplebox.SetActive(true);
-                m_Rigidbody.isKinematic = false;
 
+                while (grapplePoint == 1)
+                {
+                    m_Rigidbody.isKinematic = true;
+                }
             }
 
 
